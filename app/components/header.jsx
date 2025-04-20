@@ -56,33 +56,33 @@ const Header = () => {
 
   return (
     <header className="border-b" ref={headerRef}>
-      <div className="max-w-7xl mx-auto flex justify-between items-center p-4 relative">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-2 md:py-4 relative">
         
         {/* Logo */}
         <div className="flex items-center" ref={logoRef}>
-          <Image src="/logo.svg" alt="Logo" width={130} height={26} />
+          <Image src="/logo.svg" alt="Logo" width={100} height={22} className="md:w-[130px] md:h-[26px]" />
         </div>
 
         {/* Right Side: Basket + Language Selector */}
-        <div className="flex items-center space-x-6">
-
+        <div className="flex items-center space-x-4 md:space-x-6">
+          
           {/* Basket Icon */}
           <div className="cursor-pointer relative" ref={basketRef}>
-            <FaShoppingBasket size={22} />
+            <FaShoppingBasket size={20} className="md:size-[22px]" />
           </div>
 
           {/* Language Selector */}
           <div className="relative" ref={languageSelectorRef}>
             <div
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-1 md:space-x-2 cursor-pointer"
               onClick={() => setOpen(!open)}
             >
-              <FaGlobe size={20} />
-              <span className="font-semibold">
+              <FaGlobe size={18} className="md:size-[20px]" />
+              <span className="font-semibold text-sm md:text-base">
                 {language === 'az' ? 'Azərbaycanca' : 'English'}
               </span>
               <svg
-                className="w-4 h-4"
+                className="w-3 h-3 md:w-4 md:h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -96,17 +96,17 @@ const Header = () => {
             {open && (
               <div
                 ref={dropdownRef}
-                className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-10"
+                className="absolute right-0 mt-2 w-32 md:w-40 bg-white border rounded shadow-lg z-10"
               >
                 <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
                   onClick={() => handleLanguageChange('en')}
                 >
                   English
                   {language === 'en' && <span>✓</span>}
                 </div>
                 <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
                   onClick={() => handleLanguageChange('az')}
                 >
                   Azərbaycanca
