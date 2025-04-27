@@ -1,6 +1,8 @@
 'use client';
-import React from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { gsap } from 'gsap';
 
 const pizzas = [
   {
@@ -27,12 +29,35 @@ const pizzas = [
 ];
 
 const PizzaList = () => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const q = gsap.utils.selector(containerRef); // container içindən seç
+    gsap.fromTo(
+      q('.pizza-card'),
+      {
+        y: 50,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out',
+      }
+    );
+  }, []);
+
   return (
-    <div className="max-w-7xl mx-auto p-4">
+    <div className="max-w-7xl mx-auto p-4" ref={containerRef}>
       <h1 className="text-4xl font-extrabold mb-8">PIZZA</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {pizzas.map((pizza) => (
-          <div key={pizza.id} className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition flex flex-col group">
+          <div
+            key={pizza.id}
+            className="pizza-card border rounded-lg overflow-hidden shadow hover:shadow-lg transition flex flex-col group"
+          >
             <Image 
               src={pizza.image} 
               alt={pizza.name} 
