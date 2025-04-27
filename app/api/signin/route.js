@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import User from "@/lib/models/User";
+import Admin from "@/lib/models/Admin";
 import { NextResponse } from "next/server";
 import bcrypt from 'bcryptjs'
 import { createJWT } from "@/lib/auth";
@@ -15,15 +15,15 @@ export async function POST(request) {
             return NextResponse.json({ mes: "username or password is empty" }, { status: 400 })
 
         // find username by username
-        const userData = await User.findOne({ username: username })
-        if (!userData)
+        const AdminData = await Admin.findOne({ username: username })
+        if (!AdminData)
             return NextResponse.json({ mes: "username or password is wrong" }, { status: 400 })
 
-        const checkPasword = await bcrypt.compare(password, userData.password)
+        const checkPasword = await bcrypt.compare(password, AdminData.password)
         if (!checkPasword)
             return NextResponse.json({ mes: "username or password is wrong" }, { status: 400 })
 
-        const token = await createJWT({ _id: userData._id.toString() });
+        const token = await createJWT({ _id: AdminData._id.toString() });
 
         return new Response(JSON.stringify({ mes: "Welcome" }), {
             status: 200,

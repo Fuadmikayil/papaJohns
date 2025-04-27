@@ -3,8 +3,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-export default function SignInForm() {
-  const router = useRouter();
+export default function AdminPanel() {
+  const router = useRouter()
   const {
     register,
     reset,
@@ -13,14 +13,19 @@ export default function SignInForm() {
   } = useForm();
 
   const onSubmit = async(data) => {
-    console.log(data);
-    const res = await fetch('/api/signin',{
+    const res = await fetch('/api/products',{
       method:"POST",
       body: JSON.stringify(data)
     })
     const resData = await res.json()
-    if(res.status==200){
-      router.push('/adminpanel');
+    if(res.status===401){
+      router.push('/signin')
+      return
+    }
+
+    else if(res.status==201){
+      alert('Product Added Succesfully')
+      reset()
     }else{
       alert(resData.mes)
     }
@@ -28,19 +33,21 @@ export default function SignInForm() {
   };
 
   return (
+    <>
+    <h1 className='text-white bg-pink-600 text-center text-8xl py-[40px]'>ADMIN PANEL</h1>
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto p-4 space-y-4"
     >
       <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-          Username
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          Title
         </label>
         <input
           type="text"
-          id="username"
-          {...register('username', {
-            required: 'Username is required',
+          id="title"
+          {...register('title', {
+            required: 'Title is required',
           })}
           className="mt-1 block w-full border border-gray-300 p-2 rounded"
         />
@@ -50,28 +57,30 @@ export default function SignInForm() {
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Password
+        <label htmlFor="subTitle" className="block text-sm font-medium text-gray-700">
+          SubTitle
         </label>
         <input
-          type="password"
-          id="password"
-          {...register('password', {
-            required: 'Password is required',
+          type="text"
+          id="subTitle"
+          {...register('subTitle', {
+            required: 'subtitle is required',
           })}
           className="mt-1 block w-full border border-gray-300 p-2 rounded"
         />
-        {errors.password && (
-          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+        {errors.username && (
+          <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
         )}
       </div>
+     
 
       <button
         type="submit"
         className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
       >
-        Sign In
+        Add Product
       </button>
     </form>
+    </>
   );
 }

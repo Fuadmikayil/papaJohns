@@ -1,6 +1,6 @@
 import { verifyJWT } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
-import User from "@/lib/models/User";
+import User from "@/lib/models/Admin";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
